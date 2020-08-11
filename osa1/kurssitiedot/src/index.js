@@ -22,11 +22,11 @@ const Part = (props) => {
 const Content = (props) => {
   return (
     <section>
-      {
-        props.parts.map(part => {
-          return (<Part part={part} />)
-        })
-      }
+      <Part part={props.parts[0]} />
+
+      <Part part={props.parts[1]} />
+
+      <Part part={props.parts[2]} />
     </section>
   )
 }
