@@ -42,12 +42,20 @@ const Feedback = (props) => {
 const StatisticLine = ({text, value}) => {
   if (text === 'Positive') {
     return (
-      <p>{text} {value} %</p>
+      <tr>
+        <td>{text}</td>
+
+        <td>{value} %</td>
+      </tr>
     )
   }
 
   return (
-    <p>{text} {value}</p>
+    <tr>
+      <td>{text}</td>
+
+      <td>{value}</td>
+    </tr>
   )
 }
 
@@ -70,29 +78,33 @@ const Statistics = ({good, neutral, bad}) => {
     <>
       <h1>Statistics</h1>
 
-      <StatisticLine text='Good'
-                     value={good}
-      />
+      <table>
+        <tbody>
+          <StatisticLine text='Good'
+                         value={good}
+          />
 
-      <StatisticLine text='Neutral'
-                     value={neutral}
-      />
+          <StatisticLine text='Neutral'
+                         value={neutral}
+          />
 
-      <StatisticLine text='Bad'
-                     value={bad}
-      />
+          <StatisticLine text='Bad'
+                         value={bad}
+          />
 
-      <StatisticLine text='All'
-                     value={total}
-      />
+          <StatisticLine text='All'
+                         value={total}
+          />
 
-      <StatisticLine text='Average'
-                     value={average}
-      />
+          <StatisticLine text='Average'
+                         value={average}
+          />
 
-      <StatisticLine text='Positive'
-                     value={positivePercent}
-      />
+          <StatisticLine text='Positive'
+                         value={positivePercent}
+          />
+        </tbody>
+      </table>
     </>
   )
 }
