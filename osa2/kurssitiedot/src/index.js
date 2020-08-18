@@ -39,9 +39,9 @@ const NumberOfExercises = ({parts}) => {
   })
 
   return (
-    <p>
-      Number of exercises {total}
-    </p>
+    <p><strong>
+      Total of {total} exercises
+    </strong></p>
   )
 }
 
