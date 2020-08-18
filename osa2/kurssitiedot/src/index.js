@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-let total = 0;
-
 const Header = ({course}) => {
   return (
     <header>
@@ -34,9 +32,7 @@ const Content = ({parts}) => {
 }
 
 const NumberOfExercises = ({parts}) => {
-  parts.forEach(part => {
-    total += part.exercises;
-  })
+  const total = parts.reduce((sum, part) => sum + part.exercises, 0);
 
   return (
     <p><strong>
