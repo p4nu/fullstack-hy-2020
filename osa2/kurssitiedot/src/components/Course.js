@@ -17,11 +17,9 @@ const Part = ({part}) => {
 const Content = ({parts}) => {
   return (
     <section>
-      {parts.map(part => {
-        return (
-          <Part key={part.id} part={part}/>
-        )
-      })}
+      {parts.map(part =>
+        <Part key={part.id} part={part}/>
+      )}
     </section>
   )
 }
