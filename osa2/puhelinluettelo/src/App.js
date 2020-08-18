@@ -5,10 +5,23 @@ const App = () => {
     {
       name: 'Arto Hellas',
       number: '040-1231244',
-    }
+    },
+    {
+      name: 'Ada Lovelace',
+      number: '39-44-5323523',
+    },
+    {
+      name: 'Dan Abramov',
+      number: '12-43-234345',
+    },
+    {
+      name: 'Mary Poppendieck',
+      number: '39-23-6423122',
+    },
   ]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [newFilter, setNewFilter] = useState('');
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -32,6 +45,10 @@ const App = () => {
     setPersons(persons.concat(personObject));
   }
 
+  const handleFilterChange = (event) => {
+    setNewFilter(event.target.value);
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   }
@@ -40,11 +57,27 @@ const App = () => {
     setNewNumber(event.target.value);
   }
 
+  const filteredPersons = (newFilter !== '')
+    ? persons.filter(person =>
+      person.name.toLowerCase().includes(newFilter.toLowerCase())
+    )
+    : persons;
+
   return (
     <div>
       <h2>Phonebook</h2>
 
+      <div>
+        Filter shown with
+        <input type="text"
+               value={newFilter}
+               onChange={handleFilterChange}
+        />
+      </div>
+
       <form onSubmit={addPerson}>
+        <h2>Add a new contact</h2>
+
         <div>
           Name:
           <input type="text"
@@ -68,7 +101,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      {persons.map(person =>
+      {filteredPersons.map(person =>
         <p key={person.name}>
           {person.name} {person.number}
         </p>
