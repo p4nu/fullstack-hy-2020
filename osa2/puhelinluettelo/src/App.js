@@ -60,12 +60,6 @@ const App = () => {
     setNewNumber(event.target.value);
   }
 
-  const filteredPersons = (newFilter !== '')
-    ? persons.filter(person =>
-      person.name.toLowerCase().includes(newFilter.toLowerCase())
-    )
-    : persons;
-
   return (
     <div>
       <h2>Phonebook</h2>
@@ -85,7 +79,9 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Numbers filteredPersons={filteredPersons}/>
+      <Numbers persons={persons}
+               newFilter={newFilter}
+      />
     </div>
   );
 }
