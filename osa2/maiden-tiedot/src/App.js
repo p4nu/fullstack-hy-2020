@@ -27,7 +27,9 @@ const App = () => {
              onChange={handleSearchInput}
       />
 
-      <CountryList filteredCountries={filteredCountries}/>
+      <CountryList filteredCountries={filteredCountries}
+                   setNewFilter={setNewFilter}
+      />
     </div>
   );
 }
