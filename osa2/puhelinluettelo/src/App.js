@@ -48,6 +48,12 @@ const App = () => {
     setPersons(persons.concat(personObject));
   }
 
+  const filteredPersons = (newFilter !== '')
+    ? persons.filter(person =>
+      person.name.toLowerCase().includes(newFilter.toLowerCase())
+    )
+    : persons;
+
   const handleFilterChange = (event) => {
     setNewFilter(event.target.value);
   }
@@ -79,9 +85,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Numbers persons={persons}
-               newFilter={newFilter}
-      />
+      <Numbers filteredPersons={filteredPersons}/>
     </div>
   );
 }
