@@ -7,6 +7,8 @@ const App = () => {
 
   const [countries, setCountries] = useState([]);
   const [newFilter, setNewFilter] = useState('');
+  const [capitalCity, setCapitalCity] = useState('');
+  const [weatherInfo, setWeatherInfo] = useState([]);
 
   useEffect(() => {
     axios
@@ -14,21 +16,21 @@ const App = () => {
       .then(result => setCountries(result.data))
   }, []);
 
-  // Monthly usage limit has been reached for me, because I
-  // forgot to add the deps array which resulted to
-  // endless api calls.
   useEffect(() => {
+    if (capitalCity === '') return;
+
     axios
-      .get('http://api.weatherstack.com/current', {
+      .get('http://api.openweathermap.org/data/2.5/weather', {
         params: {
-          access_key: apikey,
-          query: 'London, United Kingdom'
+          q: capitalCity,
+          units: 'metric',
+          appid: apikey,
         },
       })
       .then(result => {
-        console.log(result.data);
+        setWeatherInfo(result.data);
       });
-  }, [apikey]);
+  }, [apikey, capitalCity]);
 
   const handleSearchInput = event => setNewFilter(event.target.value)
 
@@ -47,6 +49,8 @@ const App = () => {
 
       <CountryList filteredCountries={filteredCountries}
                    setNewFilter={setNewFilter}
+                   setCapitalCity={setCapitalCity}
+                   weatherInfo={weatherInfo}
       />
     </div>
   );

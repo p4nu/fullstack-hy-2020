@@ -1,7 +1,7 @@
 import React from 'react';
 import CountryInformation from './CountryInformation';
 
-const CountryList = ({filteredCountries, setNewFilter}) => {
+const CountryList = ({filteredCountries, setNewFilter, setCapitalCity, weatherInfo}) => {
   if (filteredCountries.length > 10) {
     return (
       <div>
@@ -21,7 +21,12 @@ const CountryList = ({filteredCountries, setNewFilter}) => {
       </div>
     )
   } else if (filteredCountries[0]) {
-    return <CountryInformation country={filteredCountries[0]}/>
+    return (
+      <CountryInformation country={filteredCountries[0]}
+                          setCapitalCity={setCapitalCity}
+                          weatherInfo={weatherInfo}
+      />
+    );
   }
 
   return <div>No countries found!</div>
