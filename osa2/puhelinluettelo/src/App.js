@@ -46,6 +46,16 @@ const App = () => {
       });
   }
 
+  const removePersonOf = deletablePerson => {
+    if (!window.confirm(`Delete ${deletablePerson.name}?`)) return;
+
+    personService
+      .remove(deletablePerson.id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== deletablePerson.id));
+      });
+  }
+
   const filteredPersons = (newFilter !== '')
     ? persons.filter(person =>
       person.name.toLowerCase().includes(newFilter.toLowerCase())
@@ -83,7 +93,9 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Numbers filteredPersons={filteredPersons}/>
+      <Numbers filteredPersons={filteredPersons}
+               removePerson={removePersonOf}
+      />
     </div>
   );
 }
