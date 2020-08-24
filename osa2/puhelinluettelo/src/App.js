@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Numbers from './components/Numbers';
+import Notification from './components/Notification';
 import personService from './services/persons';
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setNewFilter] = useState('');
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -24,6 +26,11 @@ const App = () => {
       .create(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
+        setMessage(`${returnedPerson.name} added!`);
+
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
   }
 
@@ -35,6 +42,11 @@ const App = () => {
           ? person
           : returnedPerson
         ));
+        setMessage(`${returnedPerson.name} edited!`);
+
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
   }
 
@@ -72,6 +84,11 @@ const App = () => {
       .remove(deletablePerson.id)
       .then(() => {
         setPersons(persons.filter(person => person.id !== deletablePerson.id));
+        setMessage(`${deletablePerson.name} deleted!`);
+
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
   }
 
@@ -96,6 +113,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message}/>
 
       <Filter newFilter={newFilter}
               handleFilterChange={handleFilterChange}
