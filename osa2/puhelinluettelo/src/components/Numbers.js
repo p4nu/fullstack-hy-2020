@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Numbers = ({filteredPersons, removePerson}) => (
+const Numbers = ({filteredPersons, deletePerson}) => (
   filteredPersons.map(person =>
     <div key={person.name}>
       {person.name} {person.number}
 
-      <button onClick={() => removePerson(person)}>Delete</button>
+      <button onClick={() => deletePerson(person)}>Delete</button>
     </div>
   )
 );

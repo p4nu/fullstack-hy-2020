@@ -19,34 +19,53 @@ const App = () => {
       })
   }, []);
 
-  const addPerson = (event) => {
+  const addPerson = (newPerson) => {
+    personService
+      .create(newPerson)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson));
+      });
+  }
+
+  const editPerson = (oldPersonData, newPersonData) => {
+    personService
+      .edit(oldPersonData.id, newPersonData)
+      .then(returnedPerson => {
+        setPersons(persons.map(person => person.id !== oldPersonData.id
+          ? person
+          : returnedPerson
+        ));
+      });
+  }
+
+  const handleSubmitEvent = (event) => {
     event.preventDefault();
 
-    const personObject = {
+    const newPerson = {
       name: newName,
       number: newNumber,
     }
     setNewName('');
     setNewNumber('');
 
-    const found = persons.find(person =>
-      person.name === personObject.name
+    const foundPerson = persons.find(person =>
+      person.name === newPerson.name
     );
 
-    if (found) {
-      window.alert(`${found.name} is already added to phonebook!`);
+    if (foundPerson) {
+      if (window.confirm(
+        `${foundPerson.name} is already added to phonebook. Replace the old number with a new one?`
+      )) {
+        editPerson(foundPerson, newPerson);
+      }
 
       return;
     }
 
-    personService
-      .create(personObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson));
-      });
+    addPerson(newPerson);
   }
 
-  const removePersonOf = deletablePerson => {
+  const deletePerson = deletablePerson => {
     if (!window.confirm(`Delete ${deletablePerson.name}?`)) return;
 
     personService
@@ -84,7 +103,7 @@ const App = () => {
 
       <h3>Add a new contact</h3>
 
-      <PersonForm addPerson={addPerson}
+      <PersonForm handleSubmitEvent={handleSubmitEvent}
                   newName={newName}
                   handleNameChange={handleNameChange}
                   newNumber={newNumber}
@@ -94,7 +113,7 @@ const App = () => {
       <h3>Numbers</h3>
 
       <Numbers filteredPersons={filteredPersons}
-               removePerson={removePersonOf}
+               deletePerson={deletePerson}
       />
     </div>
   );

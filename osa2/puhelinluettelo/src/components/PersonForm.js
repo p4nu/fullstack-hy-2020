@@ -2,7 +2,7 @@ import React from 'react';
 
 const PersonForm = (props) => {
   const {
-    addPerson,
+    handleSubmitEvent,
     newName,
     handleNameChange,
     newNumber,
@@ -10,7 +10,7 @@ const PersonForm = (props) => {
   } = props;
 
   return(
-    <form onSubmit={addPerson}>
+    <form onSubmit={handleSubmitEvent}>
       <div>
         Name:
         <input type="text"
