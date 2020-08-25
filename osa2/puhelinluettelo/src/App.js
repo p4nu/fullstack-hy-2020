@@ -12,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setNewFilter] = useState('');
   const [message, setMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     personService
@@ -26,6 +27,7 @@ const App = () => {
       .create(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
+        setIsError(false);
         setMessage(`${returnedPerson.name} added!`);
 
         setTimeout(() => {
@@ -42,12 +44,21 @@ const App = () => {
           ? person
           : returnedPerson
         ));
+        setIsError(false);
         setMessage(`${returnedPerson.name} edited!`);
 
         setTimeout(() => {
           setMessage(null);
         }, 5000);
-      });
+      })
+      .catch(error => {
+        setIsError(true);
+        setMessage(`${oldPersonData.name} has already been removed from the server! More info: ${error}`);
+
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000)
+      })
   }
 
   const handleSubmitEvent = (event) => {
@@ -84,7 +95,16 @@ const App = () => {
       .remove(deletablePerson.id)
       .then(() => {
         setPersons(persons.filter(person => person.id !== deletablePerson.id));
+        setIsError(false);
         setMessage(`${deletablePerson.name} deleted!`);
+
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      })
+      .catch(error => {
+        setIsError(true);
+        setMessage(`${deletablePerson.name} has already been removed from the server! More info: ${error}`);
 
         setTimeout(() => {
           setMessage(null);
@@ -114,7 +134,9 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={message}/>
+      <Notification message={message}
+                    isError={isError}
+      />
 
       <Filter newFilter={newFilter}
               handleFilterChange={handleFilterChange}
