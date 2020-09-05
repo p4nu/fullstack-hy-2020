@@ -22,13 +22,28 @@ const App = () => {
       })
   }, []);
 
+  const resetFormFields = () => {
+    setNewName('');
+    setNewNumber('');
+  }
+
   const addPerson = (newPerson) => {
     personService
       .create(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
+        resetFormFields();
+
         setIsError(false);
         setMessage(`${returnedPerson.name} added!`);
+
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      })
+      .catch(error => {
+        setIsError(true);
+        setMessage(error.response.data.error);
 
         setTimeout(() => {
           setMessage(null);
@@ -44,6 +59,8 @@ const App = () => {
           ? person
           : returnedPerson
         ));
+        resetFormFields();
+
         setIsError(false);
         setMessage(`${returnedPerson.name} edited!`);
 
@@ -68,8 +85,6 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
-    setNewName('');
-    setNewNumber('');
 
     const foundPerson = persons.find(person =>
       person.name === newPerson.name
